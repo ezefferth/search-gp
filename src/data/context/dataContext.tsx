@@ -33,12 +33,15 @@ export default function DataProvider({ children }: any) {
     const fetchSetores = async () => {
       try {
         LerSetores({ setSetores });
+
       } catch (error) {
         console.log("Erro no useEffect Setores", error);
         return;
       }
     };
     fetchSetores();
+    const auxSetor: Array<Setor> = (setores ?? []).sort((a, b) => a.nome.localeCompare(b.nome))
+    setSetores(auxSetor)
   }, []);
   /* ---------- END SETORES ---------- */
 
