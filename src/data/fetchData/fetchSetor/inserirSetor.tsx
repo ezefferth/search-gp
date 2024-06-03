@@ -1,22 +1,19 @@
 import axios from "axios";
 
 type Props = {
-  nome: String;
-
+  nome: string;
 };
 
 export async function InserirSetor({ nome }: Props) {
-  await axios("http://localhost:4003/inserirSetor", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: { nome: nome },
-  })
-    .then((response: any) => {
-      console.log("Sucesso em inserir setor!", response)
-      return response
-    })
-    .catch((error: any) => {
-      console.log("Erro ao inserir setor!", error)
-      throw error
+  try {
+    const response = await axios.post("http://localhost:4003/inserirSetor", {
+      headers: { "Content-Type": "application/json" },
+      data: { nome: nome },
     });
+    console.log("Sucesso em inserir setor!", response);
+    return response;
+  } catch (error) {
+    console.log("Erro ao inserir setor!", error);
+    throw error;
+  }
 }
