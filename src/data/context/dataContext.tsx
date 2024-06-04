@@ -4,6 +4,7 @@ import { createContext, useState, useEffect } from "react";
 import { Acessos, Acoes, Grupo, Setor, Usuario } from "../dataTypes";
 import { LerSetores } from "../fetchData/fetchSetor/lerSetores";
 import { LerGrupos } from "../fetchData/fetchGrupo/lerGrupos";
+import { LerUsuarios } from "../fetchData/fetchUsuario/lerUsuarios";
 
 type DataContextType = {
   usuarios?: Array<Usuario>;
@@ -61,6 +62,22 @@ export default function DataProvider({ children }: any) {
     //setSetores(auxSetor)
   }, []);
   /* ---------- END GRUPOS ---------- */
+  /* ---------- START USUARIOS ---------- */
+  useEffect(() => {
+    const fetchUsuarios = async () => {
+      try {
+        LerUsuarios({ setUsuarios });
+
+      } catch (error) {
+        console.log("Erro no useEffect Usuarios", error);
+        return;
+      }
+    };
+    fetchUsuarios();
+    //const auxSetor: Array<Setor> = (setores ?? []).sort((a, b) => a.nome.localeCompare(b.nome))
+    //setSetores(auxSetor)
+  }, []);
+  /* ---------- END USUARIOS ---------- */
 
   return (
     <DataContext.Provider
