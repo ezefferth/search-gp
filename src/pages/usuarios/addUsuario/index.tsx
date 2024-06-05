@@ -81,7 +81,7 @@ export default function AddUsuario({ openAdd, setOpenAdd }: Props) {
             type="text"
             variant="standard"
             fullWidth
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setNome(e.target.value.toUpperCase)}
           />
           <TextField
             sx={{ mt: 2 }}

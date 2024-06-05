@@ -5,6 +5,7 @@ import { Acessos, Acoes, Grupo, Setor, Usuario } from "../dataTypes";
 import { LerSetores } from "../fetchData/fetchSetor/lerSetores";
 import { LerGrupos } from "../fetchData/fetchGrupo/lerGrupos";
 import { LerUsuarios } from "../fetchData/fetchUsuario/lerUsuarios";
+import { LerAcessos } from "../fetchData/fetchAcessos/lerAcoes";
 
 type DataContextType = {
   usuarios?: Array<Usuario>;
@@ -74,6 +75,22 @@ export default function DataProvider({ children }: any) {
       }
     };
     fetchUsuarios();
+    //const auxSetor: Array<Setor> = (setores ?? []).sort((a, b) => a.nome.localeCompare(b.nome))
+    //setSetores(auxSetor)
+  }, []);
+  /* ---------- END USUARIOS ---------- */
+  /* ---------- START USUARIOS ---------- */
+  useEffect(() => {
+    const fetchAcessos = async () => {
+      try {
+        LerAcessos({ setAcessos });
+
+      } catch (error) {
+        console.log("Erro no useEffect Acessos", error);
+        return;
+      }
+    };
+    fetchAcessos();
     //const auxSetor: Array<Setor> = (setores ?? []).sort((a, b) => a.nome.localeCompare(b.nome))
     //setSetores(auxSetor)
   }, []);
