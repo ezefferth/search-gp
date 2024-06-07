@@ -4,7 +4,7 @@ import VisaoGeral from "../pages/visaoGeral";
 import Grupos from "../pages/grupos";
 import Usuarios from "../pages/usuarios";
 import Setores from "../pages/setores";
-import Acessos from "../pages/acessos";
+import AcessosHook from "../pages/acessos";
 
 
 
@@ -18,7 +18,7 @@ export default function Routers() {
           <Route path="/grupos" element={<Grupos />} />
           <Route path="/usuarios" element={<Usuarios />} />
           <Route path="/setores" element={<Setores />} />
-          <Route path="/acessos" element={<Acessos />} />
+          <Route path="/acessos" element={<AcessosHook />} />
         </Route>
       </Routes>
     </BrowserRouter>
