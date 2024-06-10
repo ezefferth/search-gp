@@ -6,6 +6,7 @@ import { Usuario } from "../../data/dataTypes";
 import { FaEllipsisV } from "react-icons/fa";
 import { Popover, Typography } from "@mui/material";
 import AddUsuario from "./addUsuario";
+import { useNavigate } from "react-router-dom";
 
 export default function Usuarios() {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -19,6 +20,10 @@ export default function Usuarios() {
   const [check, setCheck] = useState<boolean>(false);
   const [check_login, setCheck_login] = useState<boolean>(false);
 
+  const navigate = useNavigate()
+  const { acessos } = useContext(DataContext)
+
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, usuario: Usuario) => {
     setAnchorEl(event.currentTarget);
     setSelectedUsuario(usuario);
@@ -28,6 +33,8 @@ export default function Usuarios() {
     setAnchorEl(null);
     setSelectedUsuario(null);
   };
+
+
 
   const openPopover = Boolean(anchorEl);
   const id = openPopover ? 'simple-popover' : undefined;
@@ -49,8 +56,18 @@ export default function Usuarios() {
     }
   };
 
+  const handleAcessos = (usuario: Usuario) => {
+    acessos?.map((acesso) => {
+      if (acesso.fk_usuario === usuario.id) {
+        setTimeout(() => {
+          navigate('/acessos', { state: { usuario, acesso } })
+        }, 100);
+      }
+    })
+  }
+
   return (
-    <div className="grid justify-center mt-8"  onClick={handleClickOutside}>
+    <div className="grid justify-center mt-8" onClick={handleClickOutside}>
       <div className="w-[45rem] border-x border-blue-900" onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-between px-4">
           <span className="content-center font-semibold">Usuários</span>
@@ -88,8 +105,10 @@ export default function Usuarios() {
                         </button>
                       </Typography>
                       <Typography sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <button className="hover:bg-slate-100 hover:font-semibold transition-all">
-                          Ações
+                        <button
+                          onClick={() => handleAcessos(selectedUsuario!)}
+                          className="hover:bg-slate-100 hover:font-semibold transition-all">
+                          Acessos
                         </button>
                       </Typography>
                       <Typography sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

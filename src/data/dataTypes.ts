@@ -53,7 +53,6 @@ export type Acessos = {
   fk_usuario?: string | null;
   grupo?: Grupo | null;
   fk_grupo?: string | null;
-  acoes: Acoes[];
   agencias?: boolean;
   aliquotas_irrf?: boolean;
   antecipacao_prorrogacao_vencimentos?: boolean;

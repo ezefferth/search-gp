@@ -5,7 +5,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Checkbox from '@mui/material/Checkbox';
 import { HiArrowCircleRight } from "react-icons/hi";
 import { MapAcessos } from "./mapAcessos";
-import { Acessos, CheckboxStates, Grupo } from "../../data/dataTypes";
+import { Acessos, CheckboxStates, Grupo, Usuario } from "../../data/dataTypes";
 import { AtualizarAcessos } from "../../data/fetchData/fetchAcessos/atualizarAcessos";
 import { LerAcessos } from "../../data/fetchData/fetchAcessos/lerAcessos";
 
@@ -13,7 +13,7 @@ import { LerAcessos } from "../../data/fetchData/fetchAcessos/lerAcessos";
 export default function AcessosHook() {
 
   const location = useLocation();
-  const { grupo, acesso }: { grupo: Grupo; acesso: Acessos } = location.state || {}
+  const { grupo, acesso, usuario }: { grupo: Grupo; acesso: Acessos; usuario: Usuario } = location.state || {}
 
   const { acessos, setAcessos } = useContext(DataContext)
 
@@ -22,7 +22,7 @@ export default function AcessosHook() {
   const [acessoAlterado, setAcessoAlterado] = useState<boolean>(false)
   const [originalCheckboxStates, setOriginalCheckboxStates] = useState<CheckboxStates | null>(null);
 
-  const [checkboxStates, setCheckboxStates] = useState({
+  const [checkboxStates, setCheckboxStates] = useState<CheckboxStates>({
     agencias: false,
     aliquotas_irrf: false,
     antecipacao_prorrogacao_vencimentos: false,
@@ -110,9 +110,9 @@ export default function AcessosHook() {
   });
 
   useEffect(() => {
-    if (acesso && location.state) {
-      if (acesso.fk_grupo === location.state.id ||
-        acesso.fk_usuario === location.state.id) {
+    if (acesso) {
+      if (acesso.fk_grupo === grupo?.id ||
+        acesso.fk_usuario === usuario?.id) {
         setCheckboxStates((prevState) => ({
           ...prevState,
           agencias: acesso.agencias!,
@@ -200,16 +200,18 @@ export default function AcessosHook() {
           viabilidade: acesso.viabilidade!
         }))
         setOriginalCheckboxStates({ ...checkboxStates });
+
       }
     }
   }, [acesso, acessos, location.state])
 
   useEffect(() => {
-    if (acesso && !!originalCheckboxStates) {
-      const aux = originalCheckboxStates && Object.keys(checkboxStates).some(state => checkboxStates[state as keyof CheckboxStates] !== originalCheckboxStates[state as keyof CheckboxStates]);
+    if (!!originalCheckboxStates) {
+      const aux = originalCheckboxStates && Object.keys(checkboxStates)
+        .some(state => checkboxStates[state as keyof CheckboxStates] !== originalCheckboxStates[state as keyof CheckboxStates]);
       setAcessoAlterado(aux)
     }
-  }, [acesso, originalCheckboxStates, checkboxStates])
+  }, [acesso, acessos, originalCheckboxStates, checkboxStates])
 
 
   const [isAtTop, setIsAtTop] = useState<boolean>(true);
@@ -290,7 +292,7 @@ export default function AcessosHook() {
         <div className="w-[45rem] border-x border-blue-900" onClick={(e) => e.stopPropagation()}>
           <div className="flex justify-between px-4">
             <span className="content-center font-semibold">Acessos</span>
-            <span>{location?.state?.nome}</span>
+            <span>{grupo?.nome || usuario?.nome}</span>
           </div>
           <div>
             <div className="pt-4">
@@ -309,8 +311,8 @@ export default function AcessosHook() {
                           }}
                           id={`check-${item.state}`}
                           size="small"
-                          checked={checkboxStates[item.nome as keyof CheckboxStates]}
-                          onClick={() => handleCheckboxChange(item.state as keyof CheckboxStates)}
+                          checked={checkboxStates[item.state as keyof CheckboxStates]}
+                          onChange={() => handleCheckboxChange(item.state as keyof CheckboxStates)}
                         />
                         <button>
                           <HiArrowCircleRight className={`text-xl text-blue-950 transition-all active:transition-all active:opacity-90 actove:text-blue-900 ${checkboxStates[item.state as keyof CheckboxStates] ? 'opacity-100' : 'opacity-50 cursor-not-allowed'}`} />
@@ -320,11 +322,7 @@ export default function AcessosHook() {
                   )
                 })
               }
-
-
             </div>
-
-
           </div>
         </div>
         <div className="my-4">
@@ -337,9 +335,16 @@ export default function AcessosHook() {
             <button
               //disabled={!acessoAlterado}
               //onClick={() => handleAtualizarAcessos(originalCheckboxStates, checkboxStates)}
-              onClick={() => console.log(acesso)}
+              onClick={() => handleAtualizarAcessos(acesso, checkboxStates)}
               className={`${!acessoAlterado && 'opacity-50 cursor-not-allowed'} bg-blue-950 py-1 px-2 rounded-[0.3rem] text-[#fff] hover:opacity-80 transition-all hover:transition-all active:opacity-95`}>
               Atualizar alterações
+            </button>
+            <button
+              //disabled={!acessoAlterado}
+              //onClick={() => handleAtualizarAcessos(originalCheckboxStates, checkboxStates)}
+              onClick={() => console.log(checkboxStates)}
+              className={`${!acessoAlterado && 'opacity-50 cursor-not-allowed'} bg-blue-950 py-1 px-2 rounded-[0.3rem] text-[#fff] hover:opacity-80 transition-all hover:transition-all active:opacity-95`}>
+              teste
             </button>
           </div>
 

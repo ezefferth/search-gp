@@ -4,6 +4,7 @@ import { DataContext } from "../../../data/context/dataContext";
 import { LerUsuarios } from "../../../data/fetchData/fetchUsuario/lerUsuarios";
 import { InserirUsuario } from "../../../data/fetchData/fetchUsuario/inserirUsuario";
 import { SelectChangeEvent } from '@mui/material/Select';
+import { LerAcessos } from "../../../data/fetchData/fetchAcessos/lerAcessos";
 
 type Props = {
   openAdd: boolean
@@ -39,7 +40,7 @@ export default function AddUsuario({ openAdd, setOpenAdd }: Props) {
 
 
 
-  const { setUsuarios, setores } = useContext(DataContext)
+  const { setUsuarios, setores, setAcessos } = useContext(DataContext)
   const [nome, setNome] = useState<string>("")
   const [nome_login, setNome_login] = useState<string>("")
 
@@ -55,12 +56,17 @@ export default function AddUsuario({ openAdd, setOpenAdd }: Props) {
         handleOnAddUsuario()
         setOpenAdd(false)
         setFk_setor('')
+        setNome('')
+        setNome_login('')
+        LerAcessos({ setAcessos })
       } else {
         window.alert("Favor digitar o nome do setor corretamente!");
       }
     } catch (e: any) {
       console.log(e.response?.request?.status);
       setOpenAdd(false);
+      setNome('')
+      setNome_login('')
     }
   }
 
@@ -81,7 +87,8 @@ export default function AddUsuario({ openAdd, setOpenAdd }: Props) {
             type="text"
             variant="standard"
             fullWidth
-            onChange={(e) => setNome(e.target.value.toUpperCase)}
+            value={nome}
+            onChange={(e) => setNome(e.target.value.toUpperCase())}
           />
           <TextField
             sx={{ mt: 2 }}
