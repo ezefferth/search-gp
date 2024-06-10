@@ -15,7 +15,7 @@ export default function Grupos() {
 
   const navigate = useNavigate()
 
-  const { grupos } = useContext(DataContext);
+  const { grupos, acessos } = useContext(DataContext);
   const [nome, setNome] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
   const [openAdd, setOpenAdd] = useState<boolean>(false);
@@ -68,6 +68,16 @@ export default function Grupos() {
     }
   };
 
+  const handleAcessos = (grupo: Grupo) => {
+    acessos?.map((acesso) => {
+      if (acesso.fk_grupo === grupo.id) {
+        setTimeout(() => {
+          navigate('/acessos', { state: { grupo, acesso } })
+        }, 100);
+      }
+    })
+  }
+
   return (
     <div className=" grid justify-center mt-8" onClick={handleClickOutside}>
       <div className="w-[45rem] border-x border-blue-900" onClick={(e) => e.stopPropagation()}>
@@ -112,7 +122,7 @@ export default function Grupos() {
                       </Typography>
                       <Typography sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         {/* <FaBuffer /> */}
-                        <button onClick={() => navigate('/acessos', { state: selectedGrupo! })} className=" hover:bg-slate-100 hover:font-semibold transition-all">Acessos</button>
+                        <button onClick={() => handleAcessos(selectedGrupo!)} className=" hover:bg-slate-100 hover:font-semibold transition-all">Acessos</button>
                       </Typography>
                     </div>
                   </Popover>

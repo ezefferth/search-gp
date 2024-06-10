@@ -5,7 +5,7 @@ import { Acessos, Acoes, Grupo, Setor, Usuario } from "../dataTypes";
 import { LerSetores } from "../fetchData/fetchSetor/lerSetores";
 import { LerGrupos } from "../fetchData/fetchGrupo/lerGrupos";
 import { LerUsuarios } from "../fetchData/fetchUsuario/lerUsuarios";
-import { LerAcessos } from "../fetchData/fetchAcessos/lerAcoes";
+import { LerAcessos } from "../fetchData/fetchAcessos/lerAcessos";
 
 type DataContextType = {
   usuarios?: Array<Usuario>;
