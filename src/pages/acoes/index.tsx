@@ -1,10 +1,12 @@
 import { Box, Modal, TextField } from "@mui/material"
+import { MapAcesso } from "../../data/dataTypes"
 
 
 
 type Props = {
   openAcoes: boolean
   setOpenAcoes: (value: boolean) => void
+  mapAcesso: MapAcesso
 }
 
 const style = {
@@ -21,7 +23,7 @@ const style = {
   pb: 0,
 };
 
-export default function ModalAcoes({openAcoes, setOpenAcoes}: Props) {
+export default function ModalAcoes({ openAcoes, setOpenAcoes, mapAcesso }: Props) {
   return (
     <Modal
       open={openAcoes}
@@ -32,17 +34,20 @@ export default function ModalAcoes({openAcoes, setOpenAcoes}: Props) {
       <Box sx={{ ...style, width: 400 }}>
         <h2 className="text-center text-xl">Ações</h2>
 
+        <h3 className="pt-2 text-center">Editando: {mapAcesso.nome}</h3>
+
         <div className="text-center px-4 py-6 ">
-          <TextField
+          {/* <TextField
             id="standard-search"
             label="Nome do Grupo"
             type="text"
             variant="standard"
             fullWidth
-            //onChange={(e) => setNome(e.target.value)}
-          />
+          //onChange={(e) => setNome(e.target.value)}
+          /> */}
           <div className="flex justify-center gap-2 pt-6 px-8">
-            <button className="bg-rose-100 px-2 py-1 rounded-lg hover:bg-rose-200 transition-all active:bg-rose-300">Cancelar</button>
+            <button onClick={() => setOpenAcoes(false)}
+             className="bg-rose-100 px-2 py-1 rounded-lg hover:bg-rose-200 transition-all active:bg-rose-300">Cancelar</button>
             <button className="bg-blue-100 px-2 py-1 rounded-lg hover:bg-blue-200 transition-all active:bg-blue-300" >Atualizar</button>
           </div>
         </div>

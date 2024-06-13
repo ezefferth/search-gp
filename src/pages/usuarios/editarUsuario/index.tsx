@@ -2,9 +2,9 @@ import { Box, Checkbox, FormControlLabel, Modal, TextField } from "@mui/material
 import { useContext } from "react";
 import { DataContext } from "../../../data/context/dataContext";
 import { Usuario } from "../../../data/dataTypes";
-import { DeletarGrupo } from "../../../data/fetchData/fetchGrupo/deletarGrupo";
 import { LerUsuarios } from "../../../data/fetchData/fetchUsuario/lerUsuarios";
 import { AtualizarUsuario } from "../../../data/fetchData/fetchUsuario/atualizarGrupo";
+import { DeletarUsuario } from "../../../data/fetchData/fetchUsuario/deletarGrupo";
 
 
 type Props = {
@@ -59,10 +59,10 @@ export default function EditarGrupo({ open, setOpen, usuario, nome, setNome, nom
     }
   }
 
-  const handleDeletarGrupo = async () => {
+  const handleDeletarUsuario = async () => {
     try {
       const id = usuario!.id;
-      await DeletarGrupo({ id })
+      await DeletarUsuario({ id })
       handleOnEditarUsuario()
       setOpen(false)
     } catch (e: any) {
@@ -113,7 +113,7 @@ export default function EditarGrupo({ open, setOpen, usuario, nome, setNome, nom
           </div>
 
           <div className="flex justify-center gap-2 pt-6 px-8">
-            <button onClick={handleDeletarGrupo} className="bg-red-300 px-2 py-1 rounded-lg hover:bg-red-400 transition-all active:bg-red-500">Remover</button>
+            <button onClick={handleDeletarUsuario} className="bg-red-300 px-2 py-1 rounded-lg hover:bg-red-400 transition-all active:bg-red-500">Remover</button>
             <button onClick={() => setOpen(false)} className="bg-rose-200 px-2 py-1 rounded-lg hover:bg-rose-300 transition-all active:bg-rose-400">Cancelar</button>
             <button onClick={handleEditarUsuario} className="bg-blue-200 px-2 py-1 rounded-lg hover:bg-blue-300 transition-all active:bg-blue-400" >Atualizar</button>
           </div>

@@ -1,13 +1,25 @@
 
+export interface MapAcesso {
+  nome: string
+  state: string
+}
 
+export type Secretaria = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  nome: string;
+}
 
-export type Usuario =  {
+export type Usuario = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   nome: string;
   nome_login: string;
   fk_setor: string;
+  vinculo: string,
+  cargo: string
 }
 
 export type Setor = {
@@ -15,6 +27,7 @@ export type Setor = {
   createdAt: Date;
   updatedAt: Date;
   nome: string;
+  fk_secretaria: string;
 }
 
 export type Grupo = {
@@ -49,9 +62,7 @@ export type Acessos = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
-  usuario?: Usuario | null;
   fk_usuario?: string | null;
-  grupo?: Grupo | null;
   fk_grupo?: string | null;
   agencias?: boolean;
   aliquotas_irrf?: boolean;

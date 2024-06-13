@@ -5,7 +5,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Checkbox from '@mui/material/Checkbox';
 import { HiArrowCircleRight } from "react-icons/hi";
 import { MapAcessos } from "./mapAcessos";
-import { Acessos, CheckboxStates, Grupo, Usuario } from "../../data/dataTypes";
+import { Acessos, CheckboxStates, Grupo, MapAcesso, Usuario } from "../../data/dataTypes";
 import { AtualizarAcessos } from "../../data/fetchData/fetchAcessos/atualizarAcessos";
 import { LerAcessos } from "../../data/fetchData/fetchAcessos/lerAcessos";
 import ModalAcoes from "../acoes";
@@ -14,15 +14,23 @@ import ModalAcoes from "../acoes";
 
 export default function AcessosHook() {
 
+
+
   const location = useLocation();
   const { grupo, acesso, usuario }: { grupo: Grupo; acesso: Acessos; usuario: Usuario } = location.state || {}
 
-  const { acessos, setAcessos } = useContext(DataContext)
+  const { setAcessos, acoes } = useContext(DataContext)
 
   const [openAcoes, setOpenAcoes] = useState<boolean>(false)
 
   const [acessoAlterado, setAcessoAlterado] = useState<boolean>(false)
   const [originalCheckboxStates, setOriginalCheckboxStates] = useState<CheckboxStates | null>(null);
+
+  const [mapAcesso, setMapAcesso] = useState<MapAcesso>({
+    nome: '',
+    state: ''
+  })
+
 
   const [checkboxStates, setCheckboxStates] = useState<CheckboxStates>({
     agencias: false,
@@ -205,15 +213,15 @@ export default function AcessosHook() {
         setOriginalCheckboxStates({ ...checkboxStates });
       }
     }
-  }, [acessos])
+  }, [acesso])
 
   useEffect(() => {
     if (originalCheckboxStates) {
-      const aux = originalCheckboxStates && Object.keys(checkboxStates)
-        .some(state => checkboxStates[state as keyof CheckboxStates] !== originalCheckboxStates[state as keyof CheckboxStates]);
-      setAcessoAlterado(aux)
+      const hasChanged = Object.keys(checkboxStates)
+        .some(key => checkboxStates[key as keyof CheckboxStates] !== originalCheckboxStates[key as keyof CheckboxStates]);
+      setAcessoAlterado(hasChanged);
     }
-  }, [originalCheckboxStates, checkboxStates])
+  }, [checkboxStates, originalCheckboxStates]);
 
 
   const [isAtTop, setIsAtTop] = useState<boolean>(true);
@@ -246,107 +254,18 @@ export default function AcessosHook() {
   };
 
   const handleCancelarAtualizarAcessos = () => {
-    setAcessoAlterado(false)
-    setCheckboxStates((prevState) => ({
-      ...prevState,
-      agencias: acesso.agencias!,
-      aliquotas_irrf: acesso.aliquotas_irrf!,
-      antecipacao_prorrogacao_vencimentos: acesso.antecipacao_prorrogacao_vencimentos!,
-      arquivo_config: acesso.arquivo_config!,
-      atos: acesso.atos!,
-      bancos: acesso.bancos!,
-      baixa_automatica: acesso.baixa_automatica!,
-      baixa_manual: acesso.baixa_manual!,
-      beneficiarios_fiscais: acesso.beneficiarios_fiscais!,
-      calculo: acesso.calculo!,
-      camaras_adicionais: acesso.camaras_adicionais!,
-      cancelamento_reativacao_documentos: acesso.cancelamento_reativacao_documentos!,
-      cadastro_geral: acesso.cadastro_geral!,
-      cadastros_gerais: acesso.cadastros_gerais!,
-      campos_adicionais: acesso.campos_adicionais!,
-      cartorios: acesso.cartorios!,
-      coberturas: acesso.coberturas!,
-      competencias: acesso.competencias!,
-      condicoes_parcelamento: acesso.condicoes_parcelamento!,
-      configuracao_boletos: acesso.configuracao_boletos!,
-      configuracao_cancelamento_boletos: acesso.configuracao_cancelamento_boletos!,
-      configuracao_guia_boletos: acesso.configuracao_guia_boletos!,
-      configuracao_inscricao_boletos: acesso.configuracao_inscricao_boletos!,
-      configuracao_pagamentos_boletos: acesso.configuracao_pagamentos_boletos!,
-      configuracoes_economicas: acesso.configuracoes_economicas!,
-      configuracoes_imoveis: acesso.configuracoes_imoveis!,
-      configuracoes_notas_avulsas: acesso.configuracoes_notas_avulsas!,
-      configuracoes_receitas_diversas: acesso.configuracoes_receitas_diversas!,
-      construtoras: acesso.construtoras!,
-      contribuicoes_melhoria: acesso.contribuicoes_melhoria!,
-      contribuintes: acesso.contribuintes!,
-      controle_saldo_devedor: acesso.controle_saldo_devedor!,
-      creditos_tributarios: acesso.creditos_tributarios!,
-      declaracao_iss_homologado: acesso.declaracao_iss_homologado!,
-      desmembramentos: acesso.desmembramentos!,
-      documentos: acesso.documentos!,
-      documentos_config: acesso.documentos_config!,
-      economicos: acesso.economicos!,
-      enderecos: acesso.enderecos!,
-      englobados: acesso.englobados!,
-      engenheiros: acesso.engenheiros!,
-      estorno_inscricao: acesso.estorno_inscricao!,
-      feriados: acesso.feriados!,
-      fontes_divulgacao: acesso.fontes_divulgacao!,
-      formulas: acesso.formulas!,
-      geoprocessamento: acesso.geoprocessamento!,
-      geoprocessamento_config: acesso.geoprocessamento_config!,
-      gerenciador_economico: acesso.gerenciador_economico!,
-      guias: acesso.guias!,
-      horarios_funcionamento: acesso.horarios_funcionamento!,
-      imoveis: acesso.imoveis!,
-      imoveis_config: acesso.imoveis_config!,
-      imobiliarias: acesso.imobiliarias!,
-      indexadores: acesso.indexadores!,
-      inscricao_divida: acesso.inscricao_divida!,
-      integracao_contabil: acesso.integracao_contabil!,
-      integracao_lancamentos_config: acesso.integracao_lancamentos_config!,
-      integracoes_contabeis_config: acesso.integracoes_contabeis_config!,
-      junta_comercial_config: acesso.junta_comercial_config!,
-      livros_divida_ativa: acesso.livros_divida_ativa!,
-      limites_arrecadacao: acesso.limites_arrecadacao!,
-      manutencao_divida: acesso.manutencao_divida!,
-      manutencao_pagamentos: acesso.manutencao_pagamentos!,
-      materiais_servicos: acesso.materiais_servicos!,
-      motivos: acesso.motivos!,
-      naturezas_texto_juridico: acesso.naturezas_texto_juridico!,
-      notas_avulsas: acesso.notas_avulsas!,
-      notas_avulsas_config: acesso.notas_avulsas_config!,
-      obras: acesso.obras!,
-      obras_config: acesso.obras_config!,
-      parcelas: acesso.parcelas!,
-      parcelamento_credito: acesso.parcelamento_credito!,
-      planta_valores: acesso.planta_valores!,
-      receitas_diversas: acesso.receitas_diversas!,
-      receitas_diversas_config: acesso.receitas_diversas_config!,
-      requerimento_manutencao_lancamento: acesso.requerimento_manutencao_lancamento!,
-      tabelas_calculo: acesso.tabelas_calculo!,
-      taxas_expediente_config: acesso.taxas_expediente_config!,
-      termos_abertura_encerramento_livro: acesso.termos_abertura_encerramento_livro!,
-      tipos_documentos: acesso.tipos_documentos!,
-      transferencia_imoveis: acesso.transferencia_imoveis!,
-      transferencia_imoveis_config: acesso.transferencia_imoveis_config!,
-      unidades_medida: acesso.unidades_medida!,
-      viabilidade: acesso.viabilidade!
-    }))
-  }
+    setAcessoAlterado(false);
+    if (originalCheckboxStates) {
+      setCheckboxStates(originalCheckboxStates);
+    }
+  };
 
   const handleCheckboxChange = (name: keyof CheckboxStates) => {
-    setCheckboxStates((prevState) => {
-      if (name in prevState) {
-        return {
-          ...prevState,
-          [name]: !prevState[name as keyof CheckboxStates]
-        };
-      }
-      return prevState;
-    })
-  }
+    setCheckboxStates((prevState) => ({
+      ...prevState,
+      [name]: !prevState[name]
+    }));
+  };
 
   const handleOnEditarAcessos = () => {
     LerAcessos({ setAcessos })
@@ -354,15 +273,23 @@ export default function AcessosHook() {
 
   const handleAtualizarAcessos = async (acessos: Acessos, acessosAtualizados: CheckboxStates) => {
     try {
-      await AtualizarAcessos({ acessos, acessosAtualizados })
-      handleOnEditarAcessos()
+      await AtualizarAcessos({ acessos, acessosAtualizados });
+      handleOnEditarAcessos();
+      // Atualizar os estados originais para refletir as mudanças recentes
+      setOriginalCheckboxStates(acessosAtualizados);
+      setAcessoAlterado(false);
     } catch (e: any) {
       console.log(e.response?.request?.status);
     }
-  }
+  };
 
-  const handleAcoes = (id: string) => {
-
+  const handleAcoes = (mapAcesso: MapAcesso) => {
+    acoes?.map(item => {
+      if (item.tipo_acesso === mapAcesso.state && item.fk_acessos == acesso.id) {
+        setOpenAcoes(true)
+        setMapAcesso(mapAcesso)
+      }
+    })
   }
 
   return (
@@ -411,7 +338,7 @@ export default function AcessosHook() {
                           checked={checkboxStates[item.state as keyof CheckboxStates]}
                           onChange={() => handleCheckboxChange(item.state as keyof CheckboxStates)}
                         />
-                        <button>
+                        <button onClick={() => handleAcoes(item)}>
                           <HiArrowCircleRight className={`text-xl text-blue-950 transition-all active:transition-all active:opacity-90 actove:text-blue-900 ${checkboxStates[item.state as keyof CheckboxStates] ? 'opacity-100' : 'opacity-50 cursor-not-allowed'}`} />
                         </button>
                       </div>
@@ -438,15 +365,15 @@ export default function AcessosHook() {
               Atualizar alterações
             </button>
             <button
-              disabled={!acessoAlterado}
+              //disabled={!acessoAlterado}
               //onClick={() => handleAtualizarAcessos(originalCheckboxStates, checkboxStates)}
-              onClick={() => console.log(originalCheckboxStates)}
+              onClick={() => console.log(acesso)}
               className={`${!acessoAlterado && 'opacity-50 cursor-not-allowed'} bg-blue-950 py-1 px-2 rounded-[0.3rem] text-[#fff] hover:opacity-80 transition-all hover:transition-all active:opacity-95`}>
               teste
             </button>
           </div>
         </div>
-        <ModalAcoes openAcoes={openAcoes} setOpenAcoes={setOpenAcoes} />
+        <ModalAcoes openAcoes={openAcoes} setOpenAcoes={setOpenAcoes} mapAcesso={mapAcesso} />
       </div >
     )
   )

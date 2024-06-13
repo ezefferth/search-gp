@@ -1,4 +1,7 @@
-export const MapAcessos = [
+import { MapAcesso } from "../../../data/dataTypes";
+
+
+export const MapAcessos: MapAcesso[] = [
   {
     nome: 'Agências',
     state: 'agencias'

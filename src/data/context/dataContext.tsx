@@ -1,11 +1,13 @@
 
 
 import { createContext, useState, useEffect } from "react";
-import { Acessos, Acoes, Grupo, Setor, Usuario } from "../dataTypes";
+import { Acessos, Acoes, Grupo, Secretaria, Setor, Usuario } from "../dataTypes";
 import { LerSetores } from "../fetchData/fetchSetor/lerSetores";
 import { LerGrupos } from "../fetchData/fetchGrupo/lerGrupos";
 import { LerUsuarios } from "../fetchData/fetchUsuario/lerUsuarios";
 import { LerAcessos } from "../fetchData/fetchAcessos/lerAcessos";
+import { LerAcoes } from "../fetchData/fetchAcoes/lerAcoes";
+import { LerSecretarias } from "../fetchData/fetchSecretaria/lerSecretarias";
 
 type DataContextType = {
   usuarios?: Array<Usuario>;
@@ -18,6 +20,8 @@ type DataContextType = {
   setAcoes: (value: Array<Acoes>) => void;
   setores?: Setor[];
   setSetores: (value: Setor[]) => void;
+  secretarias?: Secretaria[]
+  setSecretarias: (value: Secretaria[]) => void;
 };
 
 export const DataContext = createContext({} as DataContextType);
@@ -30,6 +34,7 @@ export default function DataProvider({ children }: any) {
   const [grupos, setGrupos] = useState<Grupo[] | undefined>([])
   const [acoes, setAcoes] = useState<Acoes[] | undefined>([])
   const [acessos, setAcessos] = useState<Acessos[] | undefined>([])
+  const [secretarias, setSecretarias] = useState<Secretaria[] | undefined>([])
 
   /* ---------- START SETORES ---------- */
   useEffect(() => {
@@ -95,6 +100,34 @@ export default function DataProvider({ children }: any) {
     //setSetores(auxSetor)
   }, []);
   /* ---------- END USUARIOS ---------- */
+  /* ---------- START ACOES ---------- */
+  useEffect(() => {
+    const fetchAcoes = async () => {
+      try {
+        LerAcoes({ setAcoes });
+
+      } catch (error) {
+        console.log("Erro no useEffect Acoes", error);
+        return;
+      }
+    };
+    fetchAcoes();
+  }, []);
+  /* ---------- END USUARIOS ---------- */
+  /* ---------- START SECRETARIA ---------- */
+  useEffect(() => {
+    const fetchSecretaria = async () => {
+      try {
+        LerSecretarias({ setSecretarias });
+
+      } catch (error) {
+        console.log("Erro no useEffect Secretaria", error);
+        return;
+      }
+    };
+    fetchSecretaria();
+  }, []);
+  /* ---------- END USUARIOS ---------- */
 
   return (
     <DataContext.Provider
@@ -109,6 +142,8 @@ export default function DataProvider({ children }: any) {
         setAcoes,
         acessos,
         setAcessos,
+        secretarias,
+        setSecretarias,
       }}
     >
       {children}
