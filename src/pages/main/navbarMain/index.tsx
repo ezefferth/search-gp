@@ -19,6 +19,7 @@ export default function NavbarMain() {
           <span className={`${classSpan} w-20 ${location.pathname === '/grupos' && 'font-semibold'}`} onClick={() => navigate("/grupos")}>Grupos</span>
           <span className={`${classSpan} w-20 ${location.pathname === '/usuarios' && 'font-semibold'}`} onClick={() => navigate("/usuarios")}>Usuários</span>
           <span className={`${classSpan} w-20 ${location.pathname === '/setores' && 'font-semibold'}`} onClick={() => navigate("/setores")}>Setores</span>
+          <span className={`${classSpan} w-20 ${location.pathname === '/secretarias' && 'font-semibold'}`} onClick={() => navigate("/secretarias")}>Secretarias</span>
           {/*  <button onClick={() => console.log(location)}>teste</button> */}
         </div>
         <div className="flex justify-end pr-5">

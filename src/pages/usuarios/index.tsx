@@ -103,7 +103,7 @@ export default function Usuarios() {
                     <div className="justify-center w-24 py-2">
                       <Typography sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <button onClick={() => handleEdit(selectedUsuario!)} className="hover:bg-slate-100 hover:font-semibold transition-all">
-                          Editar
+                          Ver
                         </button>
                       </Typography>
                       <Typography sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

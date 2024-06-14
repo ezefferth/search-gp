@@ -6,10 +6,9 @@ type Props = {
 };
 
 export async function InserirSetor({ nome, fk_secretaria }: Props) {
-  try {
-    const response = await axios.post("http://localhost:4003/inserirSetor", {
-      headers: { "Content-Type": "application/json" },
-      data: { nome: nome, fk_secretaria: fk_secretaria },
+  try { 
+    const response = await axios.post("http://localhost:4003/inserirSetor", { nome, fk_secretaria }, {
+      headers: { "Content-Type": "application/json" }
     });
     console.log("Sucesso em inserir setor!", response);
     return response;

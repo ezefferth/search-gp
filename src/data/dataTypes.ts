@@ -3,6 +3,10 @@ export interface MapAcesso {
   nome: string
   state: string
 }
+export interface MapAcao {
+  nome: string
+  state: string
+}
 
 export type Secretaria = {
   id: string;
@@ -235,4 +239,20 @@ export interface CheckboxStates {
   transferencia_imoveis_config: boolean;
   unidades_medida: boolean;
   viabilidade: boolean;
+}
+
+export interface CheckboxAcoesProps {
+  criar: boolean;
+  editar: boolean;
+  remover: boolean;
+  emitir: boolean;
+  emitirSegVia: boolean;
+  cancelar: boolean;
+  reativar: boolean;
+  manutencao: boolean;
+  estornar: boolean;
+  homologar: boolean;
+  consultar: boolean;
+  transferir: boolean;
+  executar: boolean;
 }

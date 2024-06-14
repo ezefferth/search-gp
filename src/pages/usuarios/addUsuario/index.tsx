@@ -13,7 +13,7 @@ type Props = {
 
 const style = {
   position: 'absolute' as 'absolute',
-  top: '35%',
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
@@ -27,37 +27,54 @@ const style = {
 
 export default function AddUsuario({ openAdd, setOpenAdd }: Props) {
 
-  const [fk_setor, setFk_setor] = useState('');
+  const [fk_setor, setFk_setor] = useState<string>('');
+  const [fk_secretaria, setFk_secretaria] = useState<string>('');
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const [vinculo, setVinculo] = useState<string>('')
+  const [cargo, setCargo] = useState<string>('')
+
+  const handleChangeVin = (event: SelectChangeEvent) => {
+    setVinculo(event.target.value as string);
+    console.log((event.target.value as string))
+  };
+  const handleChangeSec = (event: SelectChangeEvent) => {
+    setFk_secretaria(event.target.value as string);
+  };
+  const handleChangeSet = (event: SelectChangeEvent) => {
     setFk_setor(event.target.value as string);
   };
 
   const handleCancelar = () => {
     setOpenAdd(false)
     setFk_setor('')
+    setFk_secretaria('')
+    setNome('')
   }
 
 
 
-  const { setUsuarios, setores, setAcessos } = useContext(DataContext)
+  const { setUsuarios, setores, setAcessos, secretarias } = useContext(DataContext)
   const [nome, setNome] = useState<string>("")
   const [nome_login, setNome_login] = useState<string>("")
 
 
-  const handleOnAddUsuario = () => {
-    LerUsuarios({ setUsuarios })
-  }
+
 
   const handleAddUsuario = async () => {
     try {
-      if (nome.length >= 4 && nome_login.length >= 4 && fk_setor.length >= 4) {
-        await InserirUsuario({ nome, nome_login, fk_setor })
-        handleOnAddUsuario()
+      if (nome.length >= 4 &&
+        nome_login.length >= 4 &&
+        fk_setor.length >= 4 &&
+        vinculo.length >= 4 &&
+        cargo.length >= 4
+      ) {
+        console.log('sim')
+        await InserirUsuario({ nome, nome_login, fk_setor, vinculo, cargo })
         setOpenAdd(false)
         setFk_setor('')
         setNome('')
         setNome_login('')
+        LerUsuarios({ setUsuarios })
         LerAcessos({ setAcessos })
       } else {
         window.alert("Favor digitar o nome do setor corretamente!");
@@ -100,19 +117,64 @@ export default function AddUsuario({ openAdd, setOpenAdd }: Props) {
             onChange={(e) => setNome_login(e.target.value)}
           />
           <FormControl variant="standard" fullWidth sx={{ mt: 2 }} size="small">
+            <InputLabel id="demo-simple-select-label">Vínculo</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={vinculo}
+              label="Vínculo"
+              onChange={handleChangeVin}
+              sx={{ textAlign: 'left' }}
+            >
+              <MenuItem value='Comissionado'>Comissionado</MenuItem>
+              <MenuItem value='Estagiário'>Estagiário</MenuItem>
+              <MenuItem value='Servidor'>Efetivo</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            sx={{ mt: 2 }}
+            id="standard-search"
+            label="Cargo"
+            type="text"
+            variant="standard"
+            fullWidth
+            onChange={(e) => setCargo(e.target.value)}
+          />
+          <FormControl variant="standard" fullWidth sx={{ mt: 2 }} size="small">
+            <InputLabel id="demo-simple-select-label">Secretaria</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={fk_secretaria}
+              label="Setor"
+              onChange={handleChangeSec}
+              sx={{ textAlign: 'left' }}
+            >
+              {
+                secretarias?.map((secretaria) => {
+                  return (
+                    <MenuItem key={secretaria.id} value={secretaria.id}>{secretaria.nome}</MenuItem>
+                  )
+                })
+              }
+            </Select>
+          </FormControl>
+          <FormControl variant="standard" fullWidth sx={{ mt: 2 }} size="small">
             <InputLabel id="demo-simple-select-label">Setor</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={fk_setor}
               label="Setor"
-              onChange={handleChange}
+              onChange={handleChangeSet}
+              sx={{ textAlign: 'left' }}
             >
               {
                 setores?.map((setor) => {
-                  return (
-                    <MenuItem key={setor.id} value={setor.id}>{setor.nome}</MenuItem>
-                  )
+                  if (fk_secretaria == setor.fk_secretaria)
+                    return (
+                      <MenuItem key={setor.id} value={setor.id}>{setor.nome}</MenuItem>
+                    )
                 })
               }
             </Select>

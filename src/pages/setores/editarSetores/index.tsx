@@ -1,5 +1,5 @@
-import { Box, Checkbox, FormControlLabel, Modal, TextField } from "@mui/material";
-import { useContext } from "react";
+import { Box, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Modal, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../../data/context/dataContext";
 import { LerSetores } from "../../../data/fetchData/fetchSetor/lerSetores";
 
@@ -16,6 +16,8 @@ type Props = {
   setNome: (value: string) => void
   check: boolean
   setCheck: (value: boolean) => void
+  checkSec: boolean
+  setCheckSec: (value: boolean) => void
 }
 
 const style = {
@@ -32,21 +34,31 @@ const style = {
   pb: 0,
 };
 
-export default function EditSetores({ open, setOpen, setor, nome, setNome, check, setCheck }: Props) {
+export default function EditSetores({ open, setOpen, setor, nome, setNome, check, setCheck, checkSec, setCheckSec }: Props) {
 
-  const { setSetores } = useContext(DataContext)
-  /*   const [nome, setNome] = useState<String>('') */
+  const { setSetores, secretarias } = useContext(DataContext)
+  const [fk_secretaria, setFk_secretaria] = useState<string>('');
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setFk_secretaria(event.target.value as string);
+  };
 
   const handleOnEditSetores = () => {
     LerSetores({ setSetores })
   }
 
+  useEffect(() => {
+    if (open) {
+      setFk_secretaria(setor?.fk_secretaria || '');
+      setNome(setor?.nome || '');
+    }
+  }, [open]);
+
   const handleEditSetor = async () => {
     try {
       const id = setor!.id;
       if (nome.length >= 4) {
-        await AtualizarSetor({ id, nome })
+        await AtualizarSetor({ id, nome, fk_secretaria })
         handleOnEditSetores()
         setOpen(false)
       } else {
@@ -70,7 +82,6 @@ export default function EditSetores({ open, setOpen, setor, nome, setNome, check
     }
   }
 
-
   return (
     <Modal
       open={open}
@@ -79,16 +90,16 @@ export default function EditSetores({ open, setOpen, setor, nome, setNome, check
       aria-describedby="parent-modal-description"
     >
       <Box sx={{ ...style, width: 400 }}>
-        <h2 className="text-center text-xl">Editar Setor</h2>
+        <h2 className="text-center text-xl">Setor</h2>
 
         <div className="text-center px-4 py-6 ">
           <div className="flex content-center">
-            <FormControlLabel control={<Checkbox checked={check} onClick={() => setCheck(!check)} />} label="" />
+            <FormControlLabel control={<Checkbox checked={check} onChange={() => setCheck(!check)} />} label="" />
             <TextField
               id="standard-search"
               label='Setor'
               type="text"
-              defaultValue={setor?.nome}
+              value={nome}
               variant="standard"
               fullWidth
               onChange={(e) => setNome(e.target.value.toUpperCase())}
@@ -96,7 +107,27 @@ export default function EditSetores({ open, setOpen, setor, nome, setNome, check
               disabled={!check}
             />
           </div>
-
+          <div className="flex content-center">
+            <FormControlLabel control={<Checkbox checked={checkSec} onChange={() => setCheckSec(!checkSec)} />} label="" />
+            <FormControl disabled={!checkSec} variant="standard" fullWidth sx={{ mt: 2 }} size="small">
+              <InputLabel id="demo-simple-select-label">Secretaria</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={fk_secretaria}
+                label='Secretaria'
+                onChange={handleChange}
+              >
+                {
+                  secretarias?.map((secretaria) => {
+                    return (
+                      <MenuItem key={secretaria.id} value={secretaria.id}>{secretaria.nome}</MenuItem>
+                    )
+                  })
+                }
+              </Select>
+            </FormControl>
+          </div>
           <div className="flex justify-center gap-2 pt-6 px-8">
             <button onClick={handleDeleteSetor} className="bg-red-300 px-2 py-1 rounded-lg hover:bg-red-400 transition-all active:bg-red-500">Remover</button>
             <button onClick={() => setOpen(false)} className="bg-rose-200 px-2 py-1 rounded-lg hover:bg-rose-300 transition-all active:bg-rose-400">Cancelar</button>

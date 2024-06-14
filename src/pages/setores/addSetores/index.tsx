@@ -4,7 +4,6 @@ import { DataContext } from "../../../data/context/dataContext";
 import { LerSetores } from "../../../data/fetchData/fetchSetor/lerSetores";
 import { InserirSetor } from "../../../data/fetchData/fetchSetor/inserirSetor";
 
-
 type Props = {
   openAdd: boolean
   setOpenAdd: (value: boolean) => void
@@ -28,38 +27,40 @@ export default function AddSetores({ openAdd, setOpenAdd }: Props) {
 
   const { setSetores, secretarias } = useContext(DataContext)
   const [nome, setNome] = useState<string>("")
-
-  const [fk_secretaria, setFk_secretaria] = useState('');
+  const [fk_secretaria, setFk_secretaria] = useState<string>('');
 
   const handleChange = (event: SelectChangeEvent) => {
     setFk_secretaria(event.target.value as string);
   };
 
+  const handleCancelar = () => {
+    setOpenAdd(false)
+    setFk_secretaria('')
+    setNome('')
+  }
 
   const handleOnAddSetores = () => {
     LerSetores({ setSetores })
   }
 
   const handleAddSetores = async () => {
-    if (nome.length >= 4)
-      try {
+    try {
+      if (nome.length >= 4) {
         await InserirSetor({ nome, fk_secretaria })
         handleOnAddSetores()
         setOpenAdd(false)
         setNome('')
         setFk_secretaria('')
-
-      } catch (e: any) {
-        console.log(e.response?.request?.status);
-        setOpenAdd(false);
-        setNome('')
-        setFk_secretaria('')
+      } else {
+        window.alert("Favor digitar o nome do setor corretamente!")
       }
-    else {
-      window.alert("Favor digitar o nome do setor corretamente!")
+    } catch (e: any) {
+      console.log("Error:", e);
+      setOpenAdd(false);
+      setNome('')
+      setFk_secretaria('')
     }
   }
-
 
   return (
     <Modal
@@ -78,8 +79,8 @@ export default function AddSetores({ openAdd, setOpenAdd }: Props) {
             type="text"
             variant="standard"
             fullWidth
-            //value={nome}
-            onChange={(e) => setNome(e.target.value)}
+            value={nome}
+            onChange={(e) => setNome(e.target.value.toUpperCase())}
           />
           <FormControl variant="standard" fullWidth sx={{ mt: 2 }} size="small">
             <InputLabel id="demo-simple-select-label">Secretaria</InputLabel>
@@ -100,7 +101,7 @@ export default function AddSetores({ openAdd, setOpenAdd }: Props) {
             </Select>
           </FormControl>
           <div className="flex justify-center gap-2 pt-6 px-8">
-            <button onClick={() => setOpenAdd(false)} className="bg-rose-100 px-2 py-1 rounded-lg hover:bg-rose-200 transition-all active:bg-rose-300">Cancelar</button>
+            <button onClick={handleCancelar} className="bg-rose-100 px-2 py-1 rounded-lg hover:bg-rose-200 transition-all active:bg-rose-300">Cancelar</button>
             <button onClick={handleAddSetores} className="bg-blue-100 px-2 py-1 rounded-lg hover:bg-blue-200 transition-all active:bg-blue-300" >Cadastrar</button>
           </div>
         </div>

@@ -37,7 +37,7 @@ const style = {
 
 export default function EditarGrupo({ open, setOpen, usuario, nome, setNome, nome_login, setNome_login, check, setCheck, check_login, setCheck_login }: Props) {
 
-  const { setUsuarios } = useContext(DataContext)
+  const { setUsuarios, secretarias, setores } = useContext(DataContext)
 
   const handleOnEditarUsuario = () => {
     LerUsuarios({ setUsuarios })
@@ -80,7 +80,7 @@ export default function EditarGrupo({ open, setOpen, usuario, nome, setNome, nom
       aria-describedby="parent-modal-description"
     >
       <Box sx={{ ...style, width: 400 }}>
-        <h2 className="text-center text-xl">Editar Usuário</h2>
+        <h2 className="text-center text-xl">Usuário</h2>
 
         <div className="text-center px-4 py-6 ">
           <div className="flex content-center">

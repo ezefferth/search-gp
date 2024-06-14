@@ -5,6 +5,7 @@ import Grupos from "../pages/grupos";
 import Usuarios from "../pages/usuarios";
 import Setores from "../pages/setores";
 import AcessosHook from "../pages/acessos";
+import Secretarias from "../pages/secretarias";
 
 
 
@@ -19,6 +20,7 @@ export default function Routers() {
           <Route path="/usuarios" element={<Usuarios />} />
           <Route path="/setores" element={<Setores />} />
           <Route path="/acessos" element={<AcessosHook />} />
+          <Route path="/secretarias" element={<Secretarias />} />
         </Route>
       </Routes>
     </BrowserRouter>

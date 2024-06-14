@@ -5,10 +5,11 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Checkbox from '@mui/material/Checkbox';
 import { HiArrowCircleRight } from "react-icons/hi";
 import { MapAcessos } from "./mapAcessos";
-import { Acessos, CheckboxStates, Grupo, MapAcesso, Usuario } from "../../data/dataTypes";
+import { Acessos, Acoes, CheckboxStates, Grupo, MapAcesso, Usuario } from "../../data/dataTypes";
 import { AtualizarAcessos } from "../../data/fetchData/fetchAcessos/atualizarAcessos";
 import { LerAcessos } from "../../data/fetchData/fetchAcessos/lerAcessos";
 import ModalAcoes from "../acoes";
+import { LerAcoes } from "../../data/fetchData/fetchAcoes/lerAcoes";
 
 
 
@@ -19,9 +20,11 @@ export default function AcessosHook() {
   const location = useLocation();
   const { grupo, acesso, usuario }: { grupo: Grupo; acesso: Acessos; usuario: Usuario } = location.state || {}
 
-  const { setAcessos, acoes } = useContext(DataContext)
+  const { setAcessos, acoes, setAcoes } = useContext(DataContext)
 
   const [openAcoes, setOpenAcoes] = useState<boolean>(false)
+
+  const [acoesSelected, setAcoesSelected] = useState<Acoes>()
 
   const [acessoAlterado, setAcessoAlterado] = useState<boolean>(false)
   const [originalCheckboxStates, setOriginalCheckboxStates] = useState<CheckboxStates | null>(null);
@@ -269,6 +272,7 @@ export default function AcessosHook() {
 
   const handleOnEditarAcessos = () => {
     LerAcessos({ setAcessos })
+    LerAcoes({setAcoes})
   }
 
   const handleAtualizarAcessos = async (acessos: Acessos, acessosAtualizados: CheckboxStates) => {
@@ -288,6 +292,7 @@ export default function AcessosHook() {
       if (item.tipo_acesso === mapAcesso.state && item.fk_acessos == acesso.id) {
         setOpenAcoes(true)
         setMapAcesso(mapAcesso)
+        setAcoesSelected(item)
       }
     })
   }
@@ -373,7 +378,7 @@ export default function AcessosHook() {
             </button>
           </div>
         </div>
-        <ModalAcoes openAcoes={openAcoes} setOpenAcoes={setOpenAcoes} mapAcesso={mapAcesso} />
+        <ModalAcoes openAcoes={openAcoes} setOpenAcoes={setOpenAcoes} mapAcesso={mapAcesso} acoes={acoesSelected!}/>
       </div >
     )
   )
