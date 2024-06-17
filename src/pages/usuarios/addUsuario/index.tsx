@@ -66,7 +66,7 @@ export default function AddUsuario({ openAdd, setOpenAdd }: Props) {
         nome_login.length >= 4 &&
         fk_setor.length >= 4 &&
         vinculo.length >= 4 &&
-        cargo.length >= 4
+        cargo.length >= 3
       ) {
         console.log('sim')
         await InserirUsuario({ nome, nome_login, fk_setor, vinculo, cargo })

@@ -12,10 +12,10 @@ export async function AtualizarAcessos({ acessos, acessosAtualizados }: Props) {
     const response = await axios.post("http://localhost:4003/atualizarAcessos", { id, ...acessosAtualizados }, {
       headers: { "Content-Type": "application/json" }
     });
-    console.log("Sucesso em inserir grupo!", response);
+    console.log("Sucesso em atualizar acessos!", response);
     return response;
   } catch (error) {
-    console.log("Erro ao inserir grupo!", error);
+    console.log("Erro ao atualizar acessos!", error);
     throw error;
   }
 }

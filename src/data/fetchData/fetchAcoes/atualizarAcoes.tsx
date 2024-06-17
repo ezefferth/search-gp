@@ -1,21 +1,21 @@
 import axios from "axios";
-import { Acessos, CheckboxStates } from "../../dataTypes";
+import { Acoes, CheckboxAcoesStates } from "../../dataTypes";
 
 type Props = {
-  acessos: Acessos
-  acessosAtualizados: CheckboxStates
+  acoes: Acoes
+  acoesAtualizados: CheckboxAcoesStates
 };
 
-export async function AtualizarAcessos({ acessos, acessosAtualizados }: Props) {
-  const id = acessos.id
+export async function AtualizarAcoes({ acoes, acoesAtualizados }: Props) {
+  const id = acoes.id
   try {
-    const response = await axios.post("http://localhost:4003/atualizarAcessos", { id, ...acessosAtualizados }, {
+    const response = await axios.post("http://localhost:4003/atualizarAcoes", { id, ...acoesAtualizados }, {
       headers: { "Content-Type": "application/json" }
     });
-    console.log("Sucesso em inserir grupo!", response);
+    console.log("Sucesso em atualizar acoes!", response);
     return response;
   } catch (error) {
-    console.log("Erro ao inserir grupo!", error);
+    console.log("Erro ao atualizar acoes!", error);
     throw error;
   }
 }

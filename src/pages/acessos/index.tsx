@@ -290,9 +290,9 @@ export default function AcessosHook() {
   const handleAcoes = (mapAcesso: MapAcesso) => {
     acoes?.map(item => {
       if (item.tipo_acesso === mapAcesso.state && item.fk_acessos == acesso.id) {
-        setOpenAcoes(true)
         setMapAcesso(mapAcesso)
         setAcoesSelected(item)
+        setOpenAcoes(true)
       }
     })
   }
@@ -364,21 +364,20 @@ export default function AcessosHook() {
             </button>
             <button
               disabled={!acessoAlterado}
-              //onClick={() => handleAtualizarAcessos(originalCheckboxStates, checkboxStates)}
               onClick={() => handleAtualizarAcessos(acesso, checkboxStates)}
               className={`${!acessoAlterado && 'opacity-50 cursor-not-allowed'} bg-blue-950 py-1 px-2 rounded-[0.3rem] text-[#fff] hover:opacity-80 transition-all hover:transition-all active:opacity-95`}>
               Atualizar alterações
             </button>
-            <button
+{/*             <button
               //disabled={!acessoAlterado}
               //onClick={() => handleAtualizarAcessos(originalCheckboxStates, checkboxStates)}
               onClick={() => console.log(acesso)}
               className={`${!acessoAlterado && 'opacity-50 cursor-not-allowed'} bg-blue-950 py-1 px-2 rounded-[0.3rem] text-[#fff] hover:opacity-80 transition-all hover:transition-all active:opacity-95`}>
               teste
-            </button>
+            </button> */}
           </div>
         </div>
-        <ModalAcoes openAcoes={openAcoes} setOpenAcoes={setOpenAcoes} mapAcesso={mapAcesso} acoes={acoesSelected!}/>
+        <ModalAcoes openAcoes={openAcoes} setOpenAcoes={setOpenAcoes} mapAcesso={mapAcesso} acoes={acoesSelected!} acesso={acesso}/>
       </div >
     )
   )

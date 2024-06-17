@@ -10,9 +10,9 @@ export async function LerGrupos({ setGrupos }: Props) {
     const response = await axios.get("http://localhost:4003/lerGrupos", {
       headers: { "Content-Type": "application/json" },
     });
-    console.log("Sucesso em fetch grupo!");
+    console.log("Sucesso em fetch grupos!");
     setGrupos(response.data);
   } catch (error) {
-    console.log("Erro em fetch grupo!", error);
+    console.log("Erro em fetch grupos!", error);
   }
 }

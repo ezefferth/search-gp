@@ -48,8 +48,6 @@ export default function DataProvider({ children }: any) {
       }
     };
     fetchSetores();
-    //const auxSetor: Array<Setor> = (setores ?? []).sort((a, b) => a.nome.localeCompare(b.nome))
-    //setSetores(auxSetor)
   }, []);
   /* ---------- END SETORES ---------- */
   /* ---------- START GRUPOS ---------- */
@@ -64,8 +62,6 @@ export default function DataProvider({ children }: any) {
       }
     };
     fetchGrupos();
-    //const auxSetor: Array<Setor> = (setores ?? []).sort((a, b) => a.nome.localeCompare(b.nome))
-    //setSetores(auxSetor)
   }, []);
   /* ---------- END GRUPOS ---------- */
   /* ---------- START USUARIOS ---------- */
@@ -80,8 +76,6 @@ export default function DataProvider({ children }: any) {
       }
     };
     fetchUsuarios();
-    //const auxSetor: Array<Setor> = (setores ?? []).sort((a, b) => a.nome.localeCompare(b.nome))
-    //setSetores(auxSetor)
   }, []);
   /* ---------- END USUARIOS ---------- */
   /* ---------- START USUARIOS ---------- */
@@ -96,8 +90,6 @@ export default function DataProvider({ children }: any) {
       }
     };
     fetchAcessos();
-    //const auxSetor: Array<Setor> = (setores ?? []).sort((a, b) => a.nome.localeCompare(b.nome))
-    //setSetores(auxSetor)
   }, []);
   /* ---------- END USUARIOS ---------- */
   /* ---------- START ACOES ---------- */
@@ -105,7 +97,6 @@ export default function DataProvider({ children }: any) {
     const fetchAcoes = async () => {
       try {
         LerAcoes({ setAcoes });
-
       } catch (error) {
         console.log("Erro no useEffect Acoes", error);
         return;
@@ -113,13 +104,12 @@ export default function DataProvider({ children }: any) {
     };
     fetchAcoes();
   }, []);
-  /* ---------- END USUARIOS ---------- */
+  /* ---------- END ACOES ---------- */
   /* ---------- START SECRETARIA ---------- */
   useEffect(() => {
     const fetchSecretaria = async () => {
       try {
         LerSecretarias({ setSecretarias });
-
       } catch (error) {
         console.log("Erro no useEffect Secretaria", error);
         return;

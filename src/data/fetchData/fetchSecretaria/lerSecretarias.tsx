@@ -10,9 +10,9 @@ export async function LerSecretarias({ setSecretarias }: Props) {
     const response = await axios.get("http://localhost:4003/lerSecretaria", {
       headers: { "Content-Type": "application/json" },
     });
-    console.log("Sucesso em fetch acessos!");
+    console.log("Sucesso em fetch secretarias!");
     setSecretarias(response.data);
   } catch (error) {
-    console.log("Erro em fetch acessos!", error);
+    console.log("Erro em fetch secretarias!", error);
   }
 }

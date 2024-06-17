@@ -241,7 +241,7 @@ export interface CheckboxStates {
   viabilidade: boolean;
 }
 
-export interface CheckboxAcoesProps {
+export interface CheckboxAcoesStates {
   criar: boolean;
   editar: boolean;
   remover: boolean;

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { DataContext } from "../../data/context/dataContext";
 import EditarGrupo from "./editarUsuario";
@@ -14,15 +14,14 @@ export default function Usuarios() {
   const { usuarios } = useContext(DataContext);
   const [nome, setNome] = useState<string>('');
   const [nome_login, setNome_login] = useState<string>('');
+  const [vinculo, setVinculo] = useState<string>('')
+  const [cargo, setCargo] = useState<string>('')
   const [open, setOpen] = useState<boolean>(false);
   const [openAdd, setOpenAdd] = useState<boolean>(false);
   const [usuario, setUsuario] = useState<Usuario>();
-  const [check, setCheck] = useState<boolean>(false);
-  const [check_login, setCheck_login] = useState<boolean>(false);
-
   const navigate = useNavigate()
 
-  
+
   const { acessos } = useContext(DataContext)
 
 
@@ -41,11 +40,16 @@ export default function Usuarios() {
   const openPopover = Boolean(anchorEl);
   const id = openPopover ? 'simple-popover' : undefined;
 
+
+  useEffect(() => {
+
+  }, [open])
+
   const handleEdit = (usuario: Usuario) => {
     setNome(usuario.nome);
     setUsuario(usuario);
-    setCheck(false);
-    setCheck_login(false);
+    setVinculo(usuario.vinculo)
+    setCargo(usuario.cargo)
     setAnchorEl(null);
     setTimeout(() => {
       setOpen(true);
@@ -126,7 +130,19 @@ export default function Usuarios() {
           })}
         </div>
       </div>
-      <EditarGrupo open={open} setOpen={setOpen} usuario={usuario} nome_login={nome_login} setNome_login={setNome_login} nome={nome} setNome={setNome} check={check} setCheck={setCheck} check_login={check_login} setCheck_login={setCheck_login} />
+      <EditarGrupo
+        open={open}
+        setOpen={setOpen}
+        usuario={usuario}
+        nome_login={nome_login}
+        setNome_login={setNome_login}
+        nome={nome}
+        setNome={setNome}
+        vinculo={vinculo}
+        setVinculo={setVinculo}
+        cargo={cargo}
+        setCargo={setCargo}
+      />
       <AddUsuario openAdd={openAdd} setOpenAdd={setOpenAdd} />
     </div>
   );

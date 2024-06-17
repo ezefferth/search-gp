@@ -10,9 +10,9 @@ export async function LerAcessos({ setAcessos }: Props) {
     const response = await axios.get("http://localhost:4003/lerAcessos", {
       headers: { "Content-Type": "application/json" },
     });
-    console.log("Sucesso em fetch secretaria!");
+    console.log("Sucesso em fetch acessos!");
     setAcessos(response.data);
   } catch (error) {
-    console.log("Erro em fetch secretaria!", error);
+    console.log("Erro em fetch acessos!", error);
   }
 }

@@ -54,8 +54,8 @@ export const MapAcoes: MapAcao[] = [
     nome : 'Executar',
     state: 'executar'
   },
-  {
+/*   {
     nome : 'blabla',
     state: 'blabla'
-  }
+  } */
 ]
