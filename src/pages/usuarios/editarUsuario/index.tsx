@@ -101,7 +101,7 @@ export default function EditarGrupo({ open, setOpen, usuario, nome, setNome, nom
         handleOnEditarUsuario()
         handleFechar()
       } else {
-        window.alert("Favor digitar o nome do usuario corretamente!");
+        window.alert("Favor digitar o nome do usuario corretamente");
       }
     } catch (e: any) {
       console.log(e.response?.request?.status);
